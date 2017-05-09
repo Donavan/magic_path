@@ -1,0 +1,6 @@
+Lint/Debugger:
+  Exclude:
+    - 'bin/console'
+
+Style/EndOfLine:
+  Enabled: false
