@@ -34,6 +34,10 @@ module MagicPath
       Pathname.new resolve(extra_params)
     end
 
+    def join(filename, extra_params = {})
+      File.join(resolve(extra_params), filename)
+    end
+
     def to_s
       resolve
     end
