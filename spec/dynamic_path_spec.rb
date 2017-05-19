@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'nenv'
 require 'pry'
 
 module MagicPath
@@ -13,24 +14,28 @@ module MagicPath
       expect(path.resolve({passed_param: 'test'})).to eq 'test_data/test/foo'
     end
 
+    it 'Includes Nenv in the default resolvers if it is already required' do
+      expect(MagicPath.resolvers).to include(Nenv)
+    end
+
     it 'Vars from the passed params hash override initial params' do
       path = DynamicPath.new('test_data/:updated_param/foo', {updated_param: 'foo'})
       expect(path.resolve({updated_param: 'test'})).to eq 'test_data/test/foo'
     end
 
-    it 'Resolves path vars from the env' do
+    it 'Resolves path vars from the resolvers' do
       Nenv.instance.create_method(:unit_env) {'test'}
       path = DynamicPath.new('test_data/:unit_env/foo')
       expect(path.resolve).to eq 'test_data/test/foo'
     end
 
-    it 'Vars from the initial params hash override env params' do
+    it 'Vars from the initial params hash override resolver params' do
       Nenv.instance.create_method(:unit_env) {'test'} unless Nenv.respond_to? :unit_env
       path = DynamicPath.new('test_data/:unit_env/foo', {unit_env: 'overridden'})
       expect(path.resolve).to eq 'test_data/overridden/foo'
     end
 
-    it 'Vars from the passed params hash override env params' do
+    it 'Vars from the passed params hash override resolver params' do
       Nenv.instance.create_method(:unit_env) {'test'} unless Nenv.respond_to? :unit_env
       path = DynamicPath.new('test_data/:unit_env/foo')
       expect(path.resolve({unit_env: 'overridden'})).to eq 'test_data/overridden/foo'

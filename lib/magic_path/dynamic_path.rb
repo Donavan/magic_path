@@ -1,7 +1,5 @@
 # Root namespace for our gem
 module MagicPath
-  require 'nenv'
-
   # A class to dynamically build paths based on parameters
   # Constructed with a pattern like: /test_data/:product/:state/:env
   # Each string beginning with a colon will be replaced from either
@@ -51,8 +49,14 @@ module MagicPath
     def _var(var_name, full_params = {})
       return full_params[var_name] if full_params.key?(var_name)
       return full_params[var_name.to_sym] if full_params.key?(var_name.to_sym)
-      return Nenv.send(var_name) if Nenv.respond_to?(var_name)
+      #return Nenv.send(var_name) if Nenv.respond_to?(var_name)
+      resolver = _resolver_for(var_name)
+      return resolver.send(var_name) unless resolver.nil?
       raise ArgumentError, "Could not locate #{var_name}, in params or ENV."
+    end
+
+    def _resolver_for(var_name)
+      MagicPath.resolvers.find { |r| r.respond_to?(var_name) }
     end
   end
 end

@@ -17,6 +17,20 @@ module MagicPath
       end
     end
 
+    attr_writer :resolvers
+    def resolvers
+      @resolvers ||= default_resolvers
+    end
+
+    def default_resolvers
+      defined?(Nenv) ? [Nenv] : []
+    end
+
+    def add_resolver(resolver)
+      resolvers << resolver
+    end
+
+
     def create_path(meth, opts)
       self.class._create_path_accessor(singleton_class, meth)
       self.send("#{meth}=", opts)

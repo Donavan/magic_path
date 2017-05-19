@@ -28,7 +28,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'pry', '~> 0.10'
   spec.add_development_dependency 'pry-byebug', '~> 3.4'
   spec.add_development_dependency 'rubocop'
-
-  spec.add_dependency 'facets', '~> 3.1'
-  spec.add_dependency 'nenv', '~> 0.3'
+  spec.add_development_dependency 'nenv', '~> 0.3'
 end

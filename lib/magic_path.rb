@@ -3,6 +3,8 @@ require 'magic_path/dynamic_path'
 # Root module for Magic Path
 require 'magic_path/path_manager'
 module MagicPath
+
+
   class << self
     def respond_to?(meth)
       instance.respond_to?(meth)
