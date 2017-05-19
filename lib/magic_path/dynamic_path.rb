@@ -13,7 +13,7 @@ module MagicPath
     attr_reader :pattern
 
     def initialize(pattern, params = {})
-      @params = params
+      @params = params || {}
       @pattern = pattern
     end
 
