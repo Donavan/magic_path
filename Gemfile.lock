@@ -2,8 +2,6 @@ PATH
   remote: .
   specs:
     magic_path (0.1.0)
-      facets
-      nenv
 
 GEM
   remote: http://rubygems.org/
@@ -12,7 +10,6 @@ GEM
     byebug (9.0.6)
     coderay (1.1.1)
     diff-lcs (1.3)
-    facets (3.1.0)
     method_source (0.8.2)
     nenv (0.3.0)
     parser (2.4.0.0)
@@ -51,11 +48,13 @@ GEM
     unicode-display_width (1.1.3)
 
 PLATFORMS
+  ruby
   x86-mingw32
 
 DEPENDENCIES
   bundler (~> 1.13)
   magic_path!
+  nenv (~> 0.3)
   pry (~> 0.10)
   pry-byebug (~> 3.4)
   rake (~> 10.0)
@@ -63,4 +62,4 @@ DEPENDENCIES
   rubocop
 
 BUNDLED WITH
-   1.13.6
+   1.14.6

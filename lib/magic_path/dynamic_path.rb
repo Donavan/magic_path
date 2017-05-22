@@ -13,11 +13,21 @@ module MagicPath
     def initialize(pattern, params = {})
       @params = params || {}
       @pattern = pattern
+      @locked_path = nil
     end
 
     def resolve(extra_params = {})
+      return @locked_path unless @locked_path.nil?
       full_params = @params.merge(extra_params)
       @pattern.split('/').map { |f| f[0] == ':' ? _var(f[1..-1], full_params) : f }.join('/')
+    end
+
+    def finalize(extra_params = {})
+      @locked_path = resolve(extra_params)
+    end
+
+    def finalized?
+      !@locked_path.nil?
     end
 
     def exist?(extra_params = {})
@@ -36,8 +46,16 @@ module MagicPath
       File.join(resolve(extra_params), filename)
     end
 
-    def to_s
-      resolve
+    def to_s(extra_params = {})
+      resolve extra_params
+    end
+
+    def to_str(extra_params = {})
+      self.to_s extra_params
+    end
+
+    def rmdir(extra_params = {})
+      Dir.rmdir resolve(extra_params)
     end
 
     def inspect
