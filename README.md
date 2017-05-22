@@ -41,7 +41,19 @@ MagicPath.my_path.resolve { state: 'ohio' }
 # /data/ohio/foobar/fixtures
 ```
 
-### Define a path using enviroment variables (via Nenv)
+### Define a path using other paths as variables
+```ruby
+## Create our base path
+MagicPath.create_path :base_data, { pattern: 'data/:state/:product', params: { product: 'foobar' } }
+# Create our path
+MagicPath.create_path :my_path, { pattern: ':base_data/fixtures' }
+
+# use the path
+MagicPath.my_path.resolve { state: 'ohio' }
+# /data/ohio/foobar/fixtures
+```
+
+### Define a path using environment variables (via Nenv)
 ```ruby
 require 'Nenv' 
 

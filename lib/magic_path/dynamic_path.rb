@@ -67,6 +67,8 @@ module MagicPath
     def _var(var_name, full_params = {})
       return full_params[var_name] if full_params.key?(var_name)
       return full_params[var_name.to_sym] if full_params.key?(var_name.to_sym)
+
+      return MagicPath.send(var_name).resolve(full_params) if MagicPath.respond_to? var_name
       resolver = _resolver_for(var_name)
       return resolver.send(var_name) unless resolver.nil?
       raise ArgumentError, "Could not locate #{var_name}, in params or resolvers."

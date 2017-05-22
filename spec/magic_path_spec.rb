@@ -25,4 +25,10 @@ describe MagicPath do
     MagicPath.redef_path = { pattern: 'foo/bar/baz' }
     expect(MagicPath.redef_path.to_s).to eq 'foo/bar/baz'
   end
+
+  it 'allows using other paths as vars' do
+    MagicPath.create_path :combined, pattern: 'some/:other/dir'
+    MagicPath.create_path :other, { pattern: 'foo/:other_var', params: {other_var: 'bar'} }
+    expect(MagicPath.combined.to_s).to eq 'some/foo/bar/dir'
+  end
 end
