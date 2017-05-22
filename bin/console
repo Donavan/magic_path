@@ -13,6 +13,7 @@ require 'magic_path'
 
 
 require 'pry'
+# rubocop:disable Lint/Debugger
 binding.pry
-
-puts 'done'
+puts 'Obligatory line for pry.'
+# rubocop:enable Lint/Debugger

@@ -30,16 +30,15 @@ module MagicPath
       resolvers << resolver
     end
 
-
     def create_path(meth, opts)
       self.class._create_path_accessor(singleton_class, meth)
-      self.send("#{meth}=", opts)
+      send("#{meth}=", opts)
     end
 
     class << self
       def create_path(meth, opts)
         _create_path_accessor(self, meth, opts)
-        self.send("#{meth}=", opts)
+        send("#{meth}=", opts)
       end
 
       def _create_path_accessor(klass, meth)
@@ -56,16 +55,14 @@ module MagicPath
       end
 
       def _create_path_reader(klass, meth)
-
         klass.send(:define_method, meth.to_s.delete('=')) do
           klass.class_variable_get("@@#{meth}".to_sym)
         end
       end
 
       def _fail_if_accessor_exists(klass, meth)
-        fail(AlreadyExistsError, meth) if klass.method_defined?(meth)
+        raise(AlreadyExistsError, meth) if klass.method_defined?(meth)
       end
     end
-
   end
 end

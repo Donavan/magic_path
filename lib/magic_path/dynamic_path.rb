@@ -51,7 +51,7 @@ module MagicPath
     end
 
     def to_str(extra_params = {})
-      self.to_s extra_params
+      to_s extra_params
     end
 
     def rmdir(extra_params = {})
@@ -67,10 +67,9 @@ module MagicPath
     def _var(var_name, full_params = {})
       return full_params[var_name] if full_params.key?(var_name)
       return full_params[var_name.to_sym] if full_params.key?(var_name.to_sym)
-      #return Nenv.send(var_name) if Nenv.respond_to?(var_name)
       resolver = _resolver_for(var_name)
       return resolver.send(var_name) unless resolver.nil?
-      raise ArgumentError, "Could not locate #{var_name}, in params or ENV."
+      raise ArgumentError, "Could not locate #{var_name}, in params or resolvers."
     end
 
     def _resolver_for(var_name)
